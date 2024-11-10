@@ -1,0 +1,35 @@
+---
+mqtt:
+  host: localhost
+  port: 1883
+  topic: frigate/events
+  username: frigate
+  password: qwerty123
+  client_id: frigate-event-handler
+frigate:
+  base_url: http://localhost:5000/api
+  api_key:
+vision_agent:
+  api_base_url: http://litellm-proxy.local/v1
+  api_key: sk-daddadadada1231dada
+  vision_model: gemini-1.5-pro
+  refine_model: claude-3-5-sonnet
+  vision_prompt: |
+    These are frames of a video from a home surveillance camera.
+    Generate a short and concise description for the video, leaving out information that the home owner
+    would already know about, like weather conditions and so on.
+    {context}
+  refine_prompt: |
+    Your job is to translate texts from an external service that describe the content of video clips.
+    The video being described is an automatic recording from a camera at the user's front door.
+    The text will be included in a notification sent to the homeowner regarding the recording.
+    Rewrite the text to fit this context, omitting details the homeowner would already know or that
+    are otherwise irrelevant. No more than 3 sentences.
+  prompt_context: |
+    The camera is located above the front door.
+  resize_video: [640, 360]
+  stack_grid: False
+  stack_grid_size: [3, 3]
+  remove_similar_frames: True
+  hashing_max_frames: 200
+  hash_size: 12
