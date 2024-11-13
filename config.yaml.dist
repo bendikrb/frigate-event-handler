@@ -33,3 +33,14 @@ vision_agent:
   remove_similar_frames: True
   hashing_max_frames: 200
   hash_size: 12
+
+  cameras:
+    backyard:
+      prompt_context: |
+        The camera is mounted on the house wall, facing the user's backyard.
+      refine_prompt: |
+        Your job is to translate texts from an external service that describe the content of video clips.
+        The video being described is an automatic recording from a camera facing the user's backyard.
+        The text will be included in a notification sent to the homeowner regarding the recording.
+        Rewrite the text to fit this context, omitting details the homeowner would already know or that
+        are otherwise irrelevant. No more than 3 sentences.
