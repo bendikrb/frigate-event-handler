@@ -100,19 +100,34 @@ class Daemon:
         if data.type == "end":
             event = data.after
             camera = event.camera
+            vision_agent_override = None
+            if camera_config := self.vision_config.cameras.get(camera):
+                if camera_config.enabled is False:
+                    _LOGGER.info(f"Camera {camera} is disabled")
+                    return
+                agent_overrides = {
+                    k: v for k, v in camera_config.to_dict().items() if v is not None and k != "enabled"
+                }
+                vision_agent_override = self.vision_agent.with_params(**agent_overrides)
             event_id = event.id
             if event.has_clip:
                 clip = await self.api.event_clip(event.id)
                 _LOGGER.info(f"Saving clip for event {event_id} from camera {camera}")
-                description = await self.generate_clip_description(clip)
+                description = await self.generate_clip_description(clip, vision_agent=vision_agent_override)
 
                 _LOGGER.debug("Updating event description")
                 await self.api.set_event_description(event_id, description)
 
-    async def generate_clip_description(self, clip: bytes):
+    async def generate_clip_description(
+        self,
+        clip: bytes,
+        vision_agent: VisionAgent | None = None,
+    ):
         """Generate clip description."""
+        if vision_agent is None:
+            vision_agent = self.vision_agent
         _LOGGER.debug(f"Generating clip description for {len(clip)} bytes of video")
-        description = await self.vision_agent.run(
+        description = await vision_agent.run(
             video_data=clip,
         )
         _LOGGER.info(f"Generated description: {description}")
