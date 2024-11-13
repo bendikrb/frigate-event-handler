@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bendikrb/frigate-event-handler/refs/heads/master/assets/config_schema.json
 ---
 mqtt:
   host: localhost
