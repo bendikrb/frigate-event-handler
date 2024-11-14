@@ -1,0 +1,18 @@
+[Unit]
+Description=Frigate Event Handler Service
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/frigate-event-handler -vvv --config ~/.config/frigate-event-handler.yaml
+User=root
+Group=root
+Restart=always
+RestartSec=10
+Environment=PYTHONUNBUFFERED=1
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
