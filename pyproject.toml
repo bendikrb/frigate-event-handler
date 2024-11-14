@@ -18,7 +18,7 @@ aiomqtt = "^2.3.0"
 aiohttp = "^3.11.0"
 async-timeout = "^5.0.1"
 mashumaro = {extras = ["orjson", "yaml"], version = "^3.14"}
-video-clip-describer = "^0.3.0"
+video-clip-describer = "^0.4.0"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.7.3"
