@@ -15,6 +15,10 @@ DisplayAspectRatioVideo = Literal["16:9", "4:3"]
 T = TypeVar("T", bound="DataClassORJSONMixin")
 
 
+def list_to_bounding_box(val: list[int]) -> BoundingBox:
+    return BoundingBox(*val)
+
+
 @dataclass
 class BaseDataClassORJSONMixin(DataClassORJSONMixin):
     class Config(BaseConfig):
@@ -32,6 +36,14 @@ class Snapshot(BaseDataClassORJSONMixin):
     attributes: list[str] | None = None
 
 
+@dataclass
+class BoundingBox(BaseDataClassORJSONMixin):
+    x1: int
+    y1: int
+    x2: int
+    y2: int
+
+
 @dataclass(kw_only=True)
 class Event(BaseDataClassORJSONMixin):
     id: str
@@ -42,7 +54,7 @@ class Event(BaseDataClassORJSONMixin):
             serialize=lambda value: value.timestamp(),
         )
     )
-    snapshot: Snapshot
+    snapshot: Snapshot | None
     label: str
     sub_label: str | None
     top_score: float
@@ -61,10 +73,10 @@ class Event(BaseDataClassORJSONMixin):
         ),
     )
     score: float
-    box: list[int]
+    box: BoundingBox = field(metadata=field_options(deserialize=list_to_bounding_box))
     area: int
     ratio: float
-    region: list[int]
+    region: BoundingBox = field(metadata=field_options(deserialize=list_to_bounding_box))
     active: bool
     stationary: bool
     motionless_count: int
