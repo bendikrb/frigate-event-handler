@@ -9,7 +9,7 @@ from frigate_event_handler.version import __version__
 
 def main_parser() -> argparse.ArgumentParser:
     """Create the ArgumentParser with all relevant subparsers."""
-    parser = argparse.ArgumentParser(description="A simple executable to use and test the library.")
+    parser = argparse.ArgumentParser(description="Frigate event handler.")
     parser.add_argument("-V", "--version", action="version", version=f"%(prog)s v{__version__}")
     parser.add_argument("-v", "--verbose", action="count", default=0, help="Logging verbosity level")
     parser.add_argument("--debug", action="store_true", help="Enable debug mode")

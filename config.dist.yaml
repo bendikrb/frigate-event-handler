@@ -1,0 +1,102 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bendikrb/frigate-event-handler/refs/heads/master/assets/config_schema.json
+---
+# MQTT connection settings
+mqtt:
+    # MQTT broker hostname
+    # Default: localhost
+    host: localhost
+
+    # MQTT broker port
+    # Default: 1883
+    port: 1883
+
+    # MQTT topic to subscribe to for Frigate events
+    # Default: frigate/events
+    topic: frigate/events
+
+    # MQTT username for authentication (optional)
+    username:
+
+    # MQTT password for authentication (optional)
+    password:
+
+    # MQTT client ID
+    # Default: frigate-event-handler
+    client_id: frigate-event-handler
+
+# Frigate API settings
+frigate:
+    # Base URL for the Frigate API
+    # Default: http://localhost:5000/api
+    base_url: http://localhost:5000/api
+
+    # Frigate API key (optional)
+    api_key:
+
+# Vision AI agent configuration
+vision_agent:
+    # Base URL for the LLM API
+    # Default: https://api.openai.com/v1
+    api_base_url: https://api.openai.com/v1
+
+    # API key for the LLM service (required)
+    api_key:
+
+    # Model to use for video frame analysis
+    # Default: gemini-1.5-pro
+    vision_model: gemini-1.5-pro
+
+    # Model to use for refining descriptions
+    # Default: claude-3-5-sonnet
+    refine_model: claude-3-5-sonnet
+
+    # Prompt template for video analysis
+    # {context} will be replaced with prompt_context
+    # Default: None
+    vision_prompt: |
+        Describe what you see in these surveillance camera frames.
+
+    # Prompt template for refining the initial description
+    # Default: None
+    refine_prompt: |
+        Rewrite this surveillance event description for a notification.
+
+    # Additional context for the vision prompt
+    # Default: None
+    prompt_context: |
+        This is a security camera.
+
+    # Video frame resize dimensions [width, height]
+    # Default: [640, 360]
+    resize_video: [ 640, 360 ]
+
+    # Arrange frames in a grid layout
+    # Default: false
+    stack_grid: false
+
+    # Grid dimensions for frame layout [rows, columns]
+    # Default: [3, 3]
+    stack_grid_size: [ 3, 3 ]
+
+    # Remove similar/duplicate frames
+    # Default: true
+    remove_similar_frames: true
+
+    # Maximum frames to process for similarity detection
+    # Default: 200
+    hashing_max_frames: 200
+
+    # Hash size for frame similarity detection
+    # Lower values = more aggressive similarity matching
+    # Default: 12
+    hash_size: 12
+
+    # Camera-specific overrides
+    # Each camera can override any of the above vision_agent settings
+    cameras:
+        camera_name:
+            prompt_context: |
+                Camera-specific context
+            refine_prompt: |
+                Camera-specific refinement prompt
+            # ... other vision_agent settings
