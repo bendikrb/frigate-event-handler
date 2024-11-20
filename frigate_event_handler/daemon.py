@@ -16,6 +16,8 @@ from frigate_event_handler.const import LOGGER as _LOGGER
 from frigate_event_handler.models import EventMessage
 
 if TYPE_CHECKING:
+    from os import PathLike
+
     from frigate_event_handler.config import Config, FrigateConfig, MQTTConfig, VisionAgentConfig
 
 
@@ -27,6 +29,9 @@ class Daemon:
 
     api: FrigateApiClient | None = field(init=False)
     vision_agent: VisionAgent | None = field(init=False)
+
+    debug: bool = False
+    debug_dir: PathLike | str = "./debug"
 
     _running = False
     _session: ClientSession | None = None
@@ -77,6 +82,8 @@ class Daemon:
             "remove_similar_frames": self.vision_config.remove_similar_frames,
             "hashing_max_frames": self.vision_config.hashing_max_frames,
             "hash_size": self.vision_config.hash_size,
+            "debug": self.debug,
+            "debug_dir": self.debug_dir,
         }
         return {k: v for k, v in params.items() if v is not None}
 

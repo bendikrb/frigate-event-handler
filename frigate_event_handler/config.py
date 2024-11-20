@@ -60,6 +60,8 @@ class Config(DataClassYAMLMixin):
     mqtt: MQTTConfig
     frigate: FrigateConfig
     vision_agent: VisionAgentConfig
+    debug: bool = False
+    debug_dir: str = field(default="./debug")
 
 
 def load_config(config_file: PathLike) -> Config:

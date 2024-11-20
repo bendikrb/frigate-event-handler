@@ -43,6 +43,8 @@ options:
   -V, --version         show program's version number and exit
   -v, --verbose         Logging verbosity level
   --debug               Enable debug mode
+  --debug-dir DEBUG_DIR
+                        Directory to output debug files to.
   -c CONFIG, --config CONFIG
                         Configuration file
 ```
@@ -137,7 +139,9 @@ Enable debug mode to save processed frames and API responses:
 frigate-event-handler --debug -c config.yml
 ```
 
-Debug files will be saved to `./debug` by default.
+Debug files will be saved to `./debug` by default, or to a custom directory specified with the `--debug-dir` option.
+
+Debug mode and debug directory can also be set in the configuration file.
 
 ## Requirements
 

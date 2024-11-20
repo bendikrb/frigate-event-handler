@@ -1,5 +1,12 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/bendikrb/frigate-event-handler/refs/heads/master/assets/config_schema.json
 ---
+# Enable debug mode
+# Default: false
+debug: false
+# Directory to save debug files
+# Default: ./debug
+debug_dir: ./debug
+
 # MQTT connection settings
 mqtt:
     # MQTT broker hostname
